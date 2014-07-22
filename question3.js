@@ -19,9 +19,32 @@
 // So in this example f3 must complete before f2 can start and f2,f4, and f5 
 // must complete before f1 can start
 
+
 // tree is either an array or a function (tree leaf)
 // execute the functions in tree and call onComplete
 // when the root function has finished
 function executeTree(tree, onComplete) {
 	// YOUR CODE HERE
+	var index = tree.length - 1;
+	var current = tree[index];
+	if (typeof(current) == 'function') {		
+		current(function(){
+			if (index >= 1) {
+				callTree(tree[index - 1], onComplete); 
+			}
+			else {
+				onComplete();
+			}
+		}	
+	}
+	else {
+		callTree(current, function(){
+			if (index >= 1) {
+				callTree(tree[index - 1], onComplete); 
+			}
+			else {
+				onComplete();
+			}			
+		});
+	}
 }
