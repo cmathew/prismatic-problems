@@ -41,9 +41,12 @@ window.onload = function() {
 			'getUserFriends': undefined,
 			'getUserInfo': undefined
 		}, 
-		'dependenciesLeft': 2,
+		//todo: hardcoded. Make util function for adding tasks which
+		//will compute this automatically
+		'dependenciesLeft': 2, 
 		'callback': function(){
-			userData = [this.dependencies.getUserInfo, this.dependencies.getUserFriends]			
+			userData = [this.dependencies.getUserInfo, this.dependencies.getUserFriends]		
+			alert(userData[0].name);
 		}
 	});
 
