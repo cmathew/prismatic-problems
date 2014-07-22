@@ -25,8 +25,10 @@ $(document).ready(function() {
 					$friendsList.append($newLI);
 					break;
 				case 'remove':
+					$('#friend_' + friend.id).remove();
 					break;
 				default:
+					console.log('api action not implemented' + data[i].action)
 					break;
 			}	
 		}
