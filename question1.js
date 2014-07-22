@@ -34,11 +34,50 @@ window.onload = function() {
 	// and api.getUserFriends, both calls needs to be going 
 	// in parallel.	
 	var userData = [null, null];
-	api.getUserInfo(function(info){
-		api.getUserFriends(function(friends){
-			console.log(info, friends);
-		});
-	});	
-
 	
+	var tasks = [];
+	tasks.push({
+		'dependencies': [
+			'getUserFriends',
+			'getUserInfo'
+		], 
+		'callback': function(){
+			alert('hey');
+		}
+	});
+
+	// Listen for the event.
+	document.addEventListener('taskcomplete', function (e) {	
+		for (var i = 0; i < tasks.length; i++){
+			var taskIndex = tasks[i].dependencies.indexOf(e.detail);
+			if (taskIndex !== -1) { 
+				tasks[i].dependencies.splice(taskIndex, 1);
+			}
+		}
+		
+		var t = 0;
+		while (tasks.length && t < tasks.length){
+			if (tasks[t].dependencies.length === 0) {
+				tasks[t].callback();
+				tasks.splice(t, 1);
+			}
+			else {
+				t++;
+			}
+		}
+	}, false);	
+	
+	var markComplete = function(taskName){
+		var event; // The custom event that will be created
+		event = document.createEvent("CustomEvent");
+		event.initCustomEvent('taskcomplete', true, true, taskName);	
+		document.dispatchEvent(event);	
+	};
+	
+	api.getUserInfo(function(info){
+		markComplete('getUserInfo');
+	});
+	api.getUserFriends(function(friends){
+		markComplete('getUserFriends');		
+	});	
 }
