@@ -37,27 +37,33 @@ window.onload = function() {
 	
 	var tasks = [];
 	tasks.push({
-		'dependencies': [
-			'getUserFriends',
-			'getUserInfo'
-		], 
+		'dependencies': {
+			'getUserFriends': undefined,
+			'getUserInfo': undefined
+		}, 
+		'dependenciesLeft': 2,
 		'callback': function(){
-			alert('hey');
+			userData = [this.dependencies.getUserInfo, this.dependencies.getUserFriends]			
 		}
 	});
 
-	// Listen for the event.
+	//listen for tasks in our framework to get completed
 	document.addEventListener('taskcomplete', function (e) {	
-		for (var i = 0; i < tasks.length; i++){
-			var taskIndex = tasks[i].dependencies.indexOf(e.detail);
-			if (taskIndex !== -1) { 
-				tasks[i].dependencies.splice(taskIndex, 1);
+		//when task is complete, we want to
+		//gather its return data and
+		//decrement the task's counter
+		for (var i = 0; i < tasks.length; i++){			
+			if (e.detail.name in tasks[i].dependencies) { 
+				tasks[i].dependencies[e.detail.name] = e.detail.value;
+				tasks[i].dependenciesLeft--;
 			}
 		}
 		
+		//remove tasks we have completed
+		//and trigger their callbacks
 		var t = 0;
 		while (tasks.length && t < tasks.length){
-			if (tasks[t].dependencies.length === 0) {
+			if (tasks[t].dependenciesLeft === 0) {
 				tasks[t].callback();
 				tasks.splice(t, 1);
 			}
@@ -67,17 +73,21 @@ window.onload = function() {
 		}
 	}, false);	
 	
-	var markComplete = function(taskName){
-		var event; // The custom event that will be created
+	//utility function for creating custom
+	//browser-level events
+	var markComplete = function(taskName, returnVal){
+		var event;
 		event = document.createEvent("CustomEvent");
-		event.initCustomEvent('taskcomplete', true, true, taskName);	
+		//last param allows us to pass arbitrary objects
+		event.initCustomEvent('taskcomplete', true, true, {'name': taskName, 'value': returnVal});	
 		document.dispatchEvent(event);	
 	};
 	
+	//make both api calls
 	api.getUserInfo(function(info){
-		markComplete('getUserInfo');
+		markComplete('getUserInfo', info);
 	});
 	api.getUserFriends(function(friends){
-		markComplete('getUserFriends');		
+		markComplete('getUserFriends', friends);		
 	});	
 }
