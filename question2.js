@@ -37,6 +37,18 @@ $(document).ready(function() {
 			$deleteFriendButton.hide();		
 		}
 	});
+	
+	$deleteFriendButton.click(function(){
+		var changes = [];
+		for (var i = 0; i < selectedFriends.length; i++) {
+			changes.push({action: 'remove', friend: {
+				'id': selectedFriends[i].attr('id'),
+				'strength': selectedFriends[i].data('strength'),
+				'name': selectedFriends[i].text()}});
+			selectedFriends[i].remove();
+		}
+		api.submitUserChanges(changes);
+	});
 
 	api.listenForFriendChanges(function(data){
 		for (var i in data) {
