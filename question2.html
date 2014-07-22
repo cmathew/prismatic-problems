@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+	<head>
+		<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.min.js'></script>
+		<script type='text/javascript' src='question2_data.js'></script>
+		<script type='text/javascript' src='question2.js'></script>		
+	<head/>
+	<body>
+		<h1>Question 2</h1>
+		<b>Note:</b> For this problem, you may use jQuery. The most recent version
+		 is already included in this document. 
+		 
+
+		<h3> Friend List </h3>
+		<button id='delete-friends' style='display:none'>Delete Friends</button>
+		<div>					
+			<ul id='friends-list'>
+				<li>Sample Friend 1</li>
+				<li>Sample Friend 2</li>
+			</ul>							
+		</div>
+
+
+		<h3> Part 1: Display friends </h3>
+
+		
+		<div width="200px">
+			<p>
+		For this question, you will attach a listener to an API method (see <code>api.listenForFriendChanges</code> in <a href='question2.js'>question2.js</a>). Your listener
+		will be called when the user's friends change and it will be called with an array of actions. 
+
+		Each action will be formatted as either an <it>add</it> message:
+		<pre>
+		<code>
+			{action: 'add', friend:{id:42, name:'Mr. New Friend', strength:0.9}}
+		</code>
+		</pre>
+
+		Or a <it>remove</it> message:
+		<pre>
+		<code>
+			{action: 'remove', friend:{id:43, name:'Mr. No longer Friend',strength:0.6}}
+		</code>
+		</pre>
+
+		 While receiving changes from the 'backend', you will be displaying a live updating list 
+		 of user friend names in the HTML list above ('ul#friends-list'). When a friends gets added, they should be appened to the bottom of the list and should disappear if removed.
+
+		 You should remove the sample friends listed above on document load. 
+
+		</div>
+
+
+
+		<h3> Part 2: Deleting Friends </h3>
+
+		 Let the user delete friends from the list. When a user clicks a name,
+		 <ol>
+		 	<li>Change the color of the name to red to indicate a pending delete OR 
+		 		back to black if it was already red to undo the pending action. 
+		 	<li>Show or hide the 'Delete Friends' button ('button#delete-button' in the HTML) 
+		 		if there is at least one pending delete or not. 
+		 	<li>When the user clicks the 'Delete Friends' button, any selected names should be
+		 		submitted <code>api.submitUserChanges</code> as an array of 'remove' actions like in Part 1. Obviously, the names should be removed from the list. Note that the friend update listener from Part 1 will <b>NOT</b> call you for changes initiated by the user.
+ 		 </ol>
+		 
+		 
+		 Remember, when you submit the users for deletion, you need the whole friend object, not just the name. You must include the id, name, and strength fields you were passed down. 
+
+		 Also, remember that the backend can delete a user which has a pending delete. In that case, the user should be immediately removed from the list.
+
+		</div>
+		<p>
+		<b>Bonus:</b> What's the probability of having a list of length 9 after three update calls
+		from <code>api.listenForFriendChanges</code>?
+					
+	<body/>
+<html/>	

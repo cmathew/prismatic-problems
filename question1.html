@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+	<head>
+		<script type='text/javascript' src='question1.js'></script>
+	<head/>
+	<body>
+		<h3>Question 1</h3>
+		<div width="200px">
+			<p>
+		For this question, you will make two concurrent calls
+		to an api and perform an action after both have returned. See the <code>api</code> variable in <a href="question1.js">question1.js</a>. 
+
+		<p>
+		The
+		two calls are <code>api.getUserInfo</code> and <code>api.getUserFriends</code>.
+		Both of them take a callback function which will be asynchronously
+		called with a user info object and a user friends array respectively. 
+
+		<p>
+
+		Once the page loads, you should make requests to <code>api.getUserInfo</code>
+		and <code>api.getUserFriends</code> and once both have returned with data, two things needs to happen:
+		<ol>
+			<li>The <code>userData</code> variable (see 'question1.js') should
+				be set to the array <code>[userInfo,userFriends]</code> pair.</li>
+			<li>Pop up an alert with the user name. Which is the <code>userInfo.name</code>
+				property from <code>api.getUserInfo</code>.</li>
+		</ol> 
+
+		<p>
+		<b>Note 1:</b> You are being evaluated on not just a correct solution, but writing
+		code which has reusable abstractions. Think about a pattern you're doing here
+		you may want to re-use. What if you had to wait for an arbitrary number of calls to return instead of just twox?
+		<p>
+		<b>Note 2:</b> Do not make serial requests for info and friends. 
+		<p>
+		<b>Bonus:</b> What's the probability the user info comes back before
+		the friends call?
+
+		</div>
+	<body/>
+<html/>	
